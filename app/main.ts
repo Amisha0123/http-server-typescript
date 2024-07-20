@@ -10,12 +10,32 @@ console.log("Logs from your program will appear here!");
 //   socket.end();
 // });
 
+// const server = net.createServer((socket) => {
+//   socket.on("data", (data) => {
+//     const dataS = data.toString();
+//     const arr = dataS.split(" ");
+//     const ans = arr[1];
+//     if (ans === "/") {
+//       socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
+//     } else {
+//       socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
+//     }
+//     socket.end();
+//   });
+// });
+
 const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     const dataS = data.toString();
     const arr = dataS.split(" ");
     const ans = arr[1];
-    if (ans === "/") {
+    const regex = /^\/echo\/.+$/;
+    if (regex.test(ans)) {
+      const sub = ans.substring(6);
+      socket.write(
+        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${sub.length}\r\n\r\n${sub}`
+      );
+    } else if (ans === "/") {
       socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
     } else {
       socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
