@@ -16,9 +16,9 @@ const server = net.createServer((socket) => {
     const arr = dataS.split(" ");
     const ans = arr[1];
     if (ans === "/") {
-      socket.write(`HTTP/1.1 200 OK \r\n\r\n`);
+      socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
     } else {
-      socket.write(`HTTP/1.1 404 Not Found \r\n\r\n`);
+      socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
     }
     socket.end();
   });
