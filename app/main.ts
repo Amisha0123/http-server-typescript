@@ -15,7 +15,7 @@ const server = net.createServer((socket) => {
     const dataS = data.toString();
     const arr = dataS.split(" ");
     const ans = arr[1];
-    if (ans.charAt(0) === "/") {
+    if (ans === "/") {
       socket.write(`HTTP/1.1 200 OK \r\n\r\n`);
     } else {
       socket.write(`HTTP/1.1 404 NOTFOUND \r\n\r\n`);
