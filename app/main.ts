@@ -13,7 +13,8 @@ console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     const dataS = data.toString();
-    const ans = dataS.split(" ")[1];
+    const arr = dataS.split(" ");
+    const ans = arr[1];
     if (ans.charAt(0) === "/") {
       socket.write(`HTTP/1.1 200 OK \r\n\r\n`);
     } else {
