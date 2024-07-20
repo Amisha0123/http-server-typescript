@@ -10,25 +10,10 @@ console.log("Logs from your program will appear here!");
 //   socket.end();
 // });
 
-// const server = net.createServer((socket) => {
-//   socket.on("data", (data) => {
-//     const dataS = data.toString();
-//     const arr = dataS.split(" ");
-//     const ans = arr[1];
-//     if (ans === "/") {
-//       socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
-//     } else {
-//       socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
-//     }
-//     socket.end();
-//   });
-// });
-
 const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     const dataS = data.toString();
-    const arr = dataS.split(" ");
-    const ans = arr[1];
+    const ans = dataS.split(" ")[1];
     const regex = /^\/echo\/.+$/;
     if (regex.test(ans)) {
       const sub = ans.substring(6);
@@ -37,11 +22,25 @@ const server = net.createServer((socket) => {
       );
     } else if (ans === "/") {
       socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
-    } else {
+    }
+    const arr = dataS.split("\r\n");
+    let count = 1;
+    for (let i = 1; i < arr.length; i++) {
+      console.log(arr[i]);
+      count += 1;
+      if (arr[i] && arr[i].split(" ")[0] === "User-Agent:") {
+        const ans = arr[i].split(" ")[1];
+        socket.write(
+          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${ans.length}\r\n\r\n${ans}`
+        );
+        break;
+      }
+    }
+    console.log(count);
+    if (count >= arr.length) {
       socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
     }
     socket.end();
   });
 });
-
 server.listen(4221, "localhost");
