@@ -18,7 +18,7 @@ const server = net.createServer((socket) => {
     if (ans === "/") {
       socket.write(`HTTP/1.1 200 OK \r\n\r\n`);
     } else {
-      socket.write(`HTTP/1.1 404 NOTFOUND \r\n\r\n`);
+      socket.write(`HTTP/1.1 404 Not found \r\n\r\n`);
     }
     socket.end();
   });
